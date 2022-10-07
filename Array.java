@@ -188,10 +188,58 @@ public class Array {
         System.out.println("The maximum sum of the arry is : " + mx);
     }
 
-    public static void main(String args[]) {
-        int array[] = { 1, -2, 6, -1, 3 };
+    // raining trap water:
+    public static int trappedwater(int height[]) {
+        int n = height.length;
 
-        kandanes(array);
+        // left maximum :(Forword)
+        int leftmax[] = new int[n];
+        leftmax[0] = height[0];
+        for (int i = 1; i < n; i++) {
+            leftmax[i] = Math.max(height[i], leftmax[i - 1]);
+        }
+
+        // right maximum :( Backword)
+
+        int rightmax[] = new int[n];
+        rightmax[n - 1] = height[n - 1];
+        for (int i = n - 2; i >= 0; i--) {
+            rightmax[i] = Math.max(height[i], rightmax[i + 1]);
+        }
+
+        // main condition work:
+        int trapped = 0;
+        for (int i = 0; i < n; i++) {
+            int waterlevel = Math.min(leftmax[i], rightmax[i]);
+            trapped += waterlevel - height[i];
+        }
+        return trapped;
+    }
+
+    // Buy and sell stock :
+    public static int stock(int price[]) {
+        int bying = Integer.MAX_VALUE;
+        int maxprofit = 0;
+
+        for (int i = 0; i < price.length; i++) {
+            if (bying < price[i]) { // when price is high i will sell
+                int profit = price[i] - bying;
+                maxprofit = Math.max(maxprofit, profit);
+            } else {
+                bying = price[i];// when price is low i wil buy;
+            }
+        }
+        return maxprofit;
+    }
+
+    public static void main(String args[]) {
+        int array[] = { 4, 2, 0, 6, 3, 2, 5 };
+
+        System.out.println(stock(array));
+
+        // System.out.println(trappedwater(array));
+
+        // kandanes(array);
 
         // prefix(array);
 
